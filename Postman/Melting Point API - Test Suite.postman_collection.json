@@ -1,0 +1,767 @@
+{
+  "info": {
+    "_postman_id": "11fff809-9c12-48e8-b3aa-ba8b22ec0217",
+    "name": "Melting Point API - Test Suite",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "37061079",
+    "_collection_link": "https://go.postman.co/collection/37061079-11fff809-9c12-48e8-b3aa-ba8b22ec0217?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Verificar Información del API (Root)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response has correct structure\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property('message');\r",
+              "    pm.expect(jsonData).to.have.property('status');\r",
+              "    pm.expect(jsonData).to.have.property('version');\r",
+              "    pm.expect(jsonData).to.have.property('docs');\r",
+              "});\r",
+              "\r",
+              "pm.test(\"API status is running\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.status).to.eql('running');\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response time is acceptable\", function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Health Check del Sistema",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Server status is OK\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.status).to.eql('ok');\r",
+              "});\r",
+              "\r",
+              "pm.test(\"ML Model is loaded\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.model_loaded).to.be.true;\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Dataset has data\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.dataset_size).to.be.above(0);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Content-Type is JSON\", function () {\r",
+              "    pm.response.to.have.header(\"Content-Type\", /application\\/json/);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/health",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "health"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Obtener Información del Modelo ML",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Model type is ChemProp\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.name).to.include('ChemProp D-MPNN + Ensemble (XGB+LGB+CAT)');\r",
+              "});\r",
+              "\r",
+              "pm.test(\"MAE value is present and numeric\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property('mae');\r",
+              "    pm.expect(jsonData.mae).to.be.a('number');\r",
+              "    pm.expect(jsonData.mae).to.be.above(0);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8000/model-info",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "model-info"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Validar SMILES Válido",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"SMILES is valid\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.valid).to.be.true;\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Has canonical SMILES\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.canonical_smiles).to.be.a('string');\r",
+              "    pm.expect(jsonData.canonical_smiles.length).to.be.above(0);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Has molecular properties\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property('num_atoms');\r",
+              "    pm.expect(jsonData).to.have.property('molecular_weight');\r",
+              "    pm.expect(jsonData.num_atoms).to.be.above(0);\r",
+              "    pm.expect(jsonData.molecular_weight).to.be.above(0);\r",
+              "});\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"smiles\": \"CCO\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8000/validate-smiles",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "validate-smiles"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Validar SMILES Inválido",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"SMILES is marked as invalid\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.valid).to.be.false;\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Has error message\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.error).to.be.a('string');\r",
+              "    pm.expect(jsonData.error.length).to.be.above(0);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Canonical SMILES is null\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.canonical_smiles).to.be.null;\r",
+              "});\r",
+              "\r",
+              ""
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"smiles\": \"XYZ_INVÁLIDO\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8000/validate-smiles",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "validate-smiles"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Predicción de Punto de Fusión por ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response contains ID\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property('id');\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Has Tm prediction\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property('Tm_pred');\r",
+              "    pm.expect(jsonData.Tm_pred).to.be.a('number');\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Tm is in reasonable range (100-800 K)\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.Tm_pred).to.be.within(100, 800);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response time is under 2 seconds\", function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "// ID 35 - ACEMIDA\r\n\r\n{\r\n  \"id\": 35\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8000/predict-by-id",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "predict-by-id"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Crear Nuevo Compuesto",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201 (Created)\", function () {\r",
+              "    pm.response.to.have.status(201);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response contains all compound properties\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property('id');\r",
+              "    pm.expect(jsonData).to.have.property('smiles');\r",
+              "    pm.expect(jsonData).to.have.property('name');\r",
+              "    pm.expect(jsonData).to.have.property('Tm_pred');\r",
+              "    pm.expect(jsonData).to.have.property('Tm_celsius');\r",
+              "});\r",
+              "\r",
+              "pm.test(\"SMILES matches input\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.smiles).to.eql('c1ccccc1');\r",
+              "});\r",
+              "\r",
+              "\r",
+              "pm.test(\"Has uncertainty value\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.uncertainty).to.be.a('string');\r",
+              "    pm.expect(jsonData.uncertainty).to.include('K');\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Has creation timestamp\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.created_at).to.be.a('string');\r",
+              "});\r",
+              "\r",
+              "// Guardar el ID para pruebas posteriores\r",
+              "pm.environment.set(\"created_compound_id\", pm.response.json().id);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"smiles\": \"c1ccccc1\",\r\n  \"name\": \"Benceno Test\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8000/compounds",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "compounds"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Obtener Todos los Compuestos",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response is an array\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.be.an('array');\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Dataset has compounds\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.length).to.be.above(0);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Each compound has required fields\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    const firstCompound = jsonData[0];\r",
+              "    \r",
+              "    pm.expect(firstCompound).to.have.property('id');\r",
+              "    pm.expect(firstCompound).to.have.property('smiles');\r",
+              "    pm.expect(firstCompound).to.have.property('Tm_pred');\r",
+              "    pm.expect(firstCompound).to.have.property('source');\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Has train and test sources\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    const sources = jsonData.map(item => item.source);\r",
+              "    \r",
+              "    pm.expect(sources).to.include('train');\r",
+              "    pm.expect(sources).to.include('test');\r",
+              "});\r",
+              "\r",
+              "pm.test(\"SMILES are valid strings\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    const randomIndex = Math.floor(Math.random() * Math.min(10, jsonData.length));\r",
+              "    \r",
+              "    for (let i = 0; i < Math.min(10, jsonData.length); i++) {\r",
+              "        pm.expect(jsonData[i].smiles).to.be.a('string');\r",
+              "        pm.expect(jsonData[i].smiles.length).to.be.above(0);\r",
+              "    }\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Tm_pred values are in valid range\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    \r",
+              "    // Verificar primeros 20 compuestos\r",
+              "    for (let i = 0; i < Math.min(20, jsonData.length); i++) {\r",
+              "        pm.expect(jsonData[i].Tm_pred).to.be.a('number');\r",
+              "        pm.expect(jsonData[i].Tm_pred).to.be.within(50, 1000); // Rango razonable en Kelvin\r",
+              "    }\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Some compounds have names\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    const withNames = jsonData.filter(item => item.name !== null && item.name !== undefined);\r",
+              "    \r",
+              "    pm.expect(withNames.length).to.be.above(0);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Dataset size is reasonable\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    // Debe tener al menos los 666 del test + 2662 del train = ~3328\r",
+              "    pm.expect(jsonData.length).to.be.at.least(100);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response time is acceptable\", function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(5000);\r",
+              "});\r",
+              "\r",
+              "// Guardar estadísticas\r",
+              "const data = pm.response.json();\r",
+              "const trainCount = data.filter(d => d.source === 'train').length;\r",
+              "const testCount = data.filter(d => d.source === 'test').length;\r",
+              "const userCount = data.filter(d => d.source === 'user').length;\r",
+              "\r",
+              "console.log(\"Dataset Summary:\");\r",
+              "console.log(\"  - Train compounds:\", trainCount);\r",
+              "console.log(\"  - Test compounds:\", testCount);\r",
+              "console.log(\"  - User compounds:\", userCount);\r",
+              "console.log(\"  - Total:\", data.length);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8000/data-all",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "data-all"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Login de Usuario",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200 OK\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response structure is correct\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property('user');\r",
+              "    pm.expect(jsonData).to.have.property('token');\r",
+              "    pm.expect(jsonData).to.have.property('message');\r",
+              "});\r",
+              "\r",
+              "\r",
+              "pm.test(\"User account is active\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.user.is_active).to.be.true;\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Token is generated\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    const token = jsonData.token;\r",
+              "    \r",
+              "    pm.expect(token.access_token).to.be.a('string');\r",
+              "    pm.expect(token.access_token.length).to.be.above(50);\r",
+              "    pm.expect(token.token_type).to.eql('bearer');\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Token expiration is set correctly\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    const expiresIn = jsonData.token.expires_in;\r",
+              "    \r",
+              "    // Debería ser 1800 segundos (30 minutos)\r",
+              "    pm.expect(expiresIn).to.eql(1800);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Login success message is present\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.message).to.include('exitoso');\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response time is fast (2 segundos)\", function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+              "});\r",
+              "\r",
+              "console.log(\"✓ Login exitoso para:\", pm.response.json().user.username);"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"email\": \"acain2387@cristorey.edu.ec\",\r\n  \"password\": \"Toyfoxica@123\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8000/auth/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "auth",
+            "login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Distribución por Categorías de Temperatura",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\r",
+              "    pm.response.to.have.status(200);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response has correct structure\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData).to.have.property('total');\r",
+              "    pm.expect(jsonData).to.have.property('categories');\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Total is a positive number\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.total).to.be.a('number');\r",
+              "    pm.expect(jsonData.total).to.be.above(0);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Categories is an array with data\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    pm.expect(jsonData.categories).to.be.an('array');\r",
+              "    pm.expect(jsonData.categories.length).to.be.above(0);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Counts are non-negative\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    \r",
+              "    jsonData.categories.forEach(category => {\r",
+              "        pm.expect(category.count).to.be.at.least(0);\r",
+              "    });\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Percentages are valid (0-100)\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    \r",
+              "    jsonData.categories.forEach(category => {\r",
+              "        pm.expect(category.percentage).to.be.at.least(0);\r",
+              "        pm.expect(category.percentage).to.be.at.most(100);\r",
+              "    });\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Total count equals sum of categories\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    const sumCounts = jsonData.categories.reduce((sum, cat) => sum + cat.count, 0);\r",
+              "    \r",
+              "    pm.expect(sumCounts).to.eql(jsonData.total);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Total percentage equals 100%\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    const sumPercentages = jsonData.categories.reduce((sum, cat) => sum + cat.percentage, 0);\r",
+              "    \r",
+              "    pm.expect(sumPercentages).to.be.closeTo(100, 0.1);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Has standard temperature categories\", function () {\r",
+              "    const jsonData = pm.response.json();\r",
+              "    const categoryNames = jsonData.categories.map(cat => cat.name);\r",
+              "    \r",
+              "    // Debería tener categorías como baja, media, alta\r",
+              "    pm.expect(categoryNames.length).to.be.at.least(3);\r",
+              "});\r",
+              "\r",
+              "pm.test(\"Response time is fast\", function () {\r",
+              "    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+              "});\r",
+              "\r",
+              "// Mostrar distribución en consola\r",
+              "const data = pm.response.json();\r",
+              "console.log(\"📊 Temperature Distribution:\");\r",
+              "console.log(\"  Total compounds:\", data.total);\r",
+              "data.categories.forEach(cat => {\r",
+              "    console.log(`  - ${cat.name}: ${cat.count} (${cat.percentage.toFixed(2)}%)`);\r",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{auth_token}}",
+            "type": "text"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": ""
+        },
+        "url": {
+          "raw": "http://localhost:8000/predictions/distribution",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "predictions",
+            "distribution"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
