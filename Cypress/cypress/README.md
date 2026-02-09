@@ -78,7 +78,7 @@ Contiene **10 pruebas E2E completas** que validan la interfaz web del sistema:
 
 ### Ejecutar todas las pruebas
 ```powershell
-npm run test:e2e
+npx cypress run
 ```
 
 ### Ejecutar con navegador específico
@@ -91,163 +91,6 @@ npx cypress run --browser edge
 ### Ejecutar en modo interactivo (recomendado)
 ```powershell
 npx cypress open
-```
-
-### Generar videos
-```powershell
-npx cypress run --config video=true
-```
-
----
-
-## 🔍 Debugging
-
-### Abrir Cypress Test Runner
-```powershell
-npm run cypress
-```
-
-Permite:
-- ✅ Ver las pruebas en tiempo real
-- ✅ Inspeccionar el DOM en cada paso
-- ✅ Time-travel debugging
-- ✅ Ver snapshots de cada acción
-
-### Ver logs
-```javascript
-cy.log('Mi mensaje de debug')
-console.log('También funciona')
-```
-
----
-
-## 📊 Ejecutar y Ver Resultados
-
-```powershell
-# Ejecutar todo en headless
-npm run test:e2e
-
-# Ver reportes
-# Los videos y screenshots se guardan en:
-# - cypress/videos/
-# - cypress/screenshots/
-```
-
----
-
-## ✅ Checklist Pre-Pruebas
-
-Antes de ejecutar las pruebas, verifica:
-
-- [ ] Backend corriendo en `http://localhost:8000`
-- [ ] Frontend corriendo en `http://localhost:3000`
-- [ ] Modelos ML cargados
-- [ ] Cypress instalado (`npm install --save-dev cypress`)
-
-### Verificación rápida:
-```powershell
-# Desde PowerShell
-curl http://localhost:8000/health
-curl http://localhost:3000
-```
-
-Si ambos responden, estás listo para ejecutar las pruebas.
-
----
-
-## 🐛 Solución de Problemas Comunes
-
-### Error: "baseUrl not responding"
-✅ **Solución:** Verifica que el frontend esté corriendo
-```powershell
-cd C:\Users\Lottie\melting-point\Melting-Point-Presentation
-npm run dev
-```
-
-### Tests fallan con timeout
-✅ **Solución:** El backend puede estar lento. Verifica que esté corriendo:
-```powershell
-curl http://localhost:8000/health
-```
-
-### Cannot find spec file
-✅ **Solución:** Ejecuta desde la carpeta del proyecto:
-```powershell
-cd C:\Users\Lottie\melting-point\Melting-Point-Presentation
-npx cypress open
-```
-
----
-
-## 📝 Estructura del Proyecto
-
-```
-Melting-Point-Presentation/
-├── cypress/
-│   ├── e2e/
-│   │   └── melting-point.cy.js      ← Archivo principal (10 pruebas)
-│   ├── support/
-│   │   └── commands.js               ← Comandos personalizados
-│   └── README.md                     ← Esta guía
-├── cypress.config.js                 ← Configuración
-└── package.json                      ← Scripts npm
-```
-
----
-
-## 🎓 Recursos Adicionales
-
-- [Documentación oficial de Cypress](https://docs.cypress.io)
-- [Best Practices](https://docs.cypress.io/guides/references/best-practices)
-- [API Reference](https://docs.cypress.io/api/table-of-contents)
-
----
-
-**Creado para:** Melting Point Prediction System  
-**Fecha:** Febrero 2026  
-**Versión:** 2.0 (Simplificada)
-
----
-
-## 🎯 Cobertura de Pruebas
-
-### Funcionalidad (40%)
-- ✅ Formulario de predicción
-- ✅ Validación de SMILES
-- ✅ Visualización de resultados
-- ✅ Navegación
-
-### Performance (20%)
-- ✅ Tiempo de carga < 3s
-- ✅ Respuesta de API < 2s
-- ✅ Optimización de recursos
-
-### UI/UX (20%)
-- ✅ Interacciones del DOM
-- ✅ Estados hover/focus
-- ✅ Feedback visual
-- ✅ Responsive design
-
-### Manejo de Errores (20%)
-- ✅ Errores 400, 404, 500
-- ✅ Network errors
-- ✅ Timeout
-- ✅ Validación
-
----
-
-## 🛠️ Comandos Útiles
-
-### Ejecutar una prueba específica
-```powershell
-npx cypress run --spec "cypress/e2e/01-home-page.cy.js"
-```
-
-### Ejecutar con navegador específico
-```powershell
-npx cypress run --browser chrome
-npx cypress run --browser firefox
-npx cypress run --browser edge
 ```
 
 ### Generar videos y screenshots
@@ -266,14 +109,14 @@ Los videos y screenshots se guardan en:
 
 ### Abrir Cypress Test Runner
 ```powershell
-npm run cypress
+npx cypress open
 ```
 
-Esto abre una interfaz gráfica donde puedes:
-- Ver las pruebas en tiempo real
-- Inspeccionar el DOM
-- Ver snapshots de cada paso
-- Debuggear con DevTools
+Esto permite:
+- ✅ Ver las pruebas en tiempo real
+- ✅ Inspeccionar el DOM en cada paso
+- ✅ Time-travel debugging
+- ✅ Ver snapshots de cada acción
 
 ### Agregar breakpoints
 ```javascript
@@ -301,21 +144,9 @@ Editar `cypress.config.js` para cambiar:
     viewportWidth: 1280,
     viewportHeight: 720,
     defaultCommandTimeout: 10000,
-    video: false,  // Cambiar a true para grabar
+    video: false,  // Cambiar a true para grabar videos
   }
 }
-```
-
----
-
-## 📊 Ejecutar Todas las Pruebas y Ver Resultados
-
-```powershell
-# Ejecutar todo
-npm run test:e2e
-
-# Ver resumen
-npx cypress run --reporter json --reporter-options output=results.json
 ```
 
 ---
@@ -328,7 +159,8 @@ Antes de ejecutar las pruebas, verifica:
 - [ ] Frontend corriendo en `http://localhost:3000`
 - [ ] Base de datos accesible (Supabase)
 - [ ] Modelos ML cargados
-- [ ] Cypress instalado
+- [ ] Cypress instalado (`npm install --save-dev cypress`)
+- [ ] Usuario de prueba creado en Supabase
 
 ### Verificación rápida:
 ```powershell
@@ -337,45 +169,88 @@ curl http://localhost:8000/health
 curl http://localhost:3000
 ```
 
+Si ambos responden, estás listo para ejecutar las pruebas.
+
 ---
 
 ## 🐛 Solución de Problemas Comunes
 
-### Error: "Cypress cannot find your spec file"
-- Verifica que estés en la carpeta correcta
-- Ejecuta: `npx cypress verify`
-
 ### Error: "baseUrl not responding"
-- Verifica que el frontend esté corriendo: `npm run dev`
-- Prueba abrir manualmente: `http://localhost:3000`
+✅ **Solución:** Verifica que el frontend esté corriendo
+```powershell
+cd C:\Users\Lottie\melting-point\Melting-Point-Presentation
+npm run dev
+```
 
 ### Tests fallan con timeout
-- Aumenta el timeout en `cypress.config.js`
-- Verifica que el backend responda rápido
+✅ **Solución:** Verifica que el backend responda rápido
+```powershell
+curl http://localhost:8000/health
+```
 
-### No se muestran resultados
-- Verifica que el backend esté disponible
-- Revisa la consola del navegador en Cypress UI
+### Cannot find spec file
+✅ **Solución:** Ejecuta desde la carpeta del proyecto
+```powershell
+cd C:\Users\Lottie\melting-point\Melting-Point-Presentation
+npx cypress open
+```
+
+### Error en login de usuario
+✅ **Solución:** Verifica que el usuario de prueba exista en Supabase y las credenciales sean correctas
 
 ---
 
-## 📝 Notas Importantes
+## 📝 Estructura del Proyecto
 
-1. **No ejecutes Cypress si el frontend/backend no están corriendo**
-2. **Las pruebas usan interceptors para mockear respuestas** - esto es normal
-3. **Los tests son independientes** - cada uno limpia su estado
-4. **Puedes ejecutar tests en paralelo** si tienes licencia comercial
+```
+Melting-Point-Presentation/
+├── cypress/
+│   ├── e2e/
+│   │   └── melting-point.cy.js      ← Archivo principal (10 pruebas E2E)
+│   ├── support/
+│   │   └── commands.js               ← Comandos personalizados
+│   └── README.md                     ← Esta guía
+├── cypress.config.js                 ← Configuración de Cypress
+└── package.json                      ← Scripts npm
+```
 
 ---
 
-## 🎓 Recursos
+## 🎯 Cobertura de Pruebas
+
+### Autenticación (30%)
+- ✅ Login con credenciales válidas
+- ✅ Logout de sesión
+- ✅ Redirección después de login
+
+### Funcionalidad (30%)
+- ✅ Predicción de puntos de fusión
+- ✅ Agregar compuestos personalizados
+- ✅ Editar perfil de usuario
+
+### Navegación (20%)
+- ✅ Navegación entre páginas
+- ✅ Enlaces externos (Kaggle)
+- ✅ Validación de rutas
+
+### Performance (10%)
+- ✅ Tiempo de carga < 5s en todas las páginas
+
+### UI/UX (10%)
+- ✅ Diseño responsive (móvil, tablet, desktop)
+- ✅ Visualización correcta de contenido
+
+---
+
+## 🎓 Recursos Adicionales
 
 - [Documentación oficial de Cypress](https://docs.cypress.io)
 - [Best Practices](https://docs.cypress.io/guides/references/best-practices)
+- [API Reference](https://docs.cypress.io/api/table-of-contents)
 - [Ejemplos de tests](https://github.com/cypress-io/cypress-example-recipes)
 
 ---
 
 **Creado para:** Melting Point Prediction System  
 **Fecha:** Febrero 2026  
-**Autor:** Lottie
+**Versión:** 2.0 - Actualizado con pruebas E2E completas
