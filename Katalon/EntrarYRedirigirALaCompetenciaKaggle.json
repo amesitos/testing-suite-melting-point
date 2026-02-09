@@ -1,0 +1,120 @@
+{
+    "configuration": {
+        "device": {
+            "orientation": "landscape",
+            "deviceName": "Desktop"
+        }
+    },
+    "type": "clickpath",
+    "version": "1.0",
+    "events": [
+        {
+            "description": "Loading of \"http://localhost:3000/\"",
+            "wait": {
+                "waitFor": "page_complete"
+            },
+            "target": {},
+            "type": "navigate",
+            "url": "http://localhost:3000/"
+        },
+        {
+            "description": "click",
+            "wait": {
+                "waitFor": "page_complete"
+            },
+            "target": {
+                "locators": [
+                    {
+                        "type": "css",
+                        "value": "a:contains(\"Acerca de\")"
+                    }
+                ]
+            },
+            "type": "click",
+            "button": 0
+        },
+        {
+            "description": "click",
+            "wait": {
+                "waitFor": "page_complete"
+            },
+            "target": {
+                "locators": [
+                    {
+                        "type": "css",
+                        "value": "a:contains(\"Ver en Kaggle\")"
+                    }
+                ]
+            },
+            "type": "click",
+            "button": 0
+        },
+        {
+            "description": "Loading of \"https://www.kaggle.com/competitions/melting-point\"",
+            "wait": {
+                "waitFor": "page_complete"
+            },
+            "target": {
+                "window": "window[1]"
+            },
+            "type": "navigate",
+            "url": "https://www.kaggle.com/competitions/melting-point"
+        },
+        {
+            "description": "Loading of \"http://localhost:3000/about\"",
+            "wait": {
+                "waitFor": "page_complete"
+            },
+            "target": {
+                "window": "window[0]"
+            },
+            "type": "navigate",
+            "url": "http://localhost:3000/about"
+        },
+        {
+            "description": "click",
+            "wait": {
+                "waitFor": "page_complete"
+            },
+            "target": {
+                "locators": [
+                    {
+                        "type": "css",
+                        "value": "a:contains(\"Inicio\")"
+                    }
+                ],
+                "window": "window[0]"
+            },
+            "type": "click",
+            "button": 0
+        },
+        {
+            "description": "Loading of \"http://localhost:3000/\"",
+            "wait": {
+                "waitFor": "page_complete"
+            },
+            "target": {
+                "window": "window[0]"
+            },
+            "type": "navigate",
+            "url": "http://localhost:3000/"
+        },
+        {
+            "description": "click",
+            "wait": {
+                "waitFor": "page_complete"
+            },
+            "target": {
+                "locators": [
+                    {
+                        "type": "dom",
+                        "value": "document.evaluate('(.//*[normalize-space(text()) and normalize-space(.)=\\'Kaggle\\'])[1]/following::span[1]', document, null, XPathResult.ANY_TYPE, null).iterateNext()"
+                    }
+                ],
+                "window": "window[0]"
+            },
+            "type": "click",
+            "button": 0
+        }
+    ]
+}
