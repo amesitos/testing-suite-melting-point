@@ -208,14 +208,3 @@ Error: connect ECONNREFUSED 127.0.0.1:3000
 
 Este proyecto es parte del sistema Melting Point desarrollado por el equipo de QA Automation.
 
-## 👥 Autores
-
-QA Automation Team - Test Suite v1.0.0
-
-## 📞 Soporte
-
-Para reportar problemas o sugerencias, contacta al equipo de QA.
-
----
-
-**Última actualización**: Febrero 2026
